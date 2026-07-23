@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jen Français — Lộ trình tiếng Pháp cá nhân hóa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #12213B;
+      --ink-2: #1B3157;
+      --parchment: #EFE8D8;
+      --gold: #B98B2E;
+      --gold-soft: #D9B968;
+      --brick: #9C3D2E;
+      --line: rgba(239, 232, 216, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    body {
+      margin: 0;
+      background: var(--parchment);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .display {
+      font-family: 'Fraunces', serif;
+    }
+
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.04em;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--ink);
+      color: var(--parchment);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 6vw;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: 1.15rem;
+    }
+
+    .brand .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-size: 0.92rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      opacity: 0.85;
+      transition: opacity .2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      opacity: 1;
+      color: var(--gold-soft);
+    }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--ink);
+      padding: 9px 18px;
+      border-radius: 2px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-cta:focus-visible,
+    .nav-cta:active {
+      outline: 2px solid var(--gold-soft);
+      outline-offset: 2px;
+      background: var(--gold-soft);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--parchment);
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-toggle .ham-icon,
+    .nav-toggle .x-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .nav-toggle .x-icon {
+      display: none;
+    }
+
+    .nav-toggle.active .ham-icon {
+      display: none;
+    }
+
+    .nav-toggle.active .x-icon {
+      display: block;
+    }
+
+    .eyebrow--brick {
+      color: var(--brick);
+    }
+
+    .about-text {
+      opacity: 0.8;
+      max-width: 60ch;
+    }
+
+    .nav-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 48;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease;
+    }
+
+    .nav-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width:760px) {
+      .nav-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(280px, 80vw);
+        height: 100vh;
+        background: var(--ink);
+        padding: 80px 6vw 24px;
+        gap: 20px;
+        z-index: 49;
+        transform: translateX(100%);
+        transition: transform .3s ease;
+        border-left: 1px solid var(--line);
+      }
+
+      .nav-links.open {
+        transform: translateX(0);
+      }
+
+      .nav-links a {
+        font-size: 1rem;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    /* HERO */
+    .hero {
+      background: radial-gradient(1200px 500px at 85% -10%, var(--ink-2), var(--ink) 60%);
+      color: var(--parchment);
+      padding: 8vw 6vw 7vw;
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (max-width:900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 14vw;
+      }
+    }
+
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--gold-soft);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 5vw, 3.6rem);
+      font-weight: 600;
+      margin: 0 0 22px;
+      line-height: 1.08;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-soft);
+    }
+
+    .hero p.lede {
+      font-size: 1.08rem;
+      max-width: 46ch;
+      opacity: 0.88;
+      margin: 0 0 32px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--ink);
+      padding: 13px 26px;
+      border-radius: 2px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform .2s, background .2s;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+      background: var(--gold-soft);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      border: 1px solid var(--line);
+      color: var(--parchment);
+      padding: 13px 26px;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: border-color .2s, background .2s;
+    }
+
+    .btn-ghost:hover,
+    .btn-ghost:focus-visible {
+      border-color: var(--gold-soft);
+      background: rgba(239, 232, 216, 0.06);
+    }
+
+    /* SEAL */
+    .seal-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .seal {
+      width: min(260px, 70vw);
+      height: auto;
+    }
+
+    .seal-ring-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: 2.5px;
+      fill: var(--parchment);
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .seal .ring {
+      transform-origin: 130px 130px;
+      animation: rotate 40s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .seal .ring {
+        animation: none;
+      }
+    }
+
+    /* SECTION SHELL */
+    section {
+      padding: 6vw 6vw;
+    }
+
+    .section-head {
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    .section-head .eyebrow {
+      color: var(--brick);
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+      margin: 0 0 10px;
+      font-weight: 600;
+    }
+
+    .section-head p {
+      opacity: 0.75;
+      margin: 0;
+      max-width: 56ch;
+    }
+
+    /* TICKET CARDS (Thế mạnh) */
+    .tickets {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    @media (max-width:860px) {
+      .tickets {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ticket {
+      background: var(--ink);
+      color: var(--parchment);
+      border-radius: 4px;
+      position: relative;
+      padding: 28px 24px 24px;
+      box-shadow: 0 10px 24px rgba(18, 33, 59, 0.15);
+    }
+
+    .ticket::before,
+    .ticket::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      background: var(--parchment);
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .ticket::before {
+      left: -9px;
+    }
+
+    .ticket::after {
+      right: -9px;
+    }
+
+    .ticket .code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--gold-soft);
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .ticket h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.3rem;
+      margin: 0 0 10px;
+      font-weight: 600;
+    }
+
+    .ticket p {
+      font-size: 0.92rem;
+      opacity: 0.82;
+      margin: 0;
+    }
+
+    .perf {
+      border-top: 1px dashed rgba(239, 232, 216, 0.35);
+      margin-top: 18px;
+      padding-top: 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      opacity: 0.65;
+    }
+
+    /* ABOUT */
+    .about {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 44px;
+      align-items: start;
+    }
+
+    @media (max-width:700px) {
+      .about {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .avatar-slot {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 2px dashed var(--brick);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--brick);
+      padding: 16px;
+      background: rgba(156, 61, 46, 0.05);
+    }
+
+    .about-copy h2 {
+      font-size: 1.5rem;
+      margin-top: 0;
+    }
+
+    .credentials {
+      list-style: none;
+      padding: 0;
+      margin: 22px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .credentials li {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      font-size: 0.95rem;
+    }
+
+    .credentials .stamp-mini {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--brick);
+      border: 1px solid var(--brick);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    /* COURSES */
+    .courses {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width:760px) {
+      .courses {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .course {
+      border: 1px solid rgba(18, 33, 59, 0.15);
+      border-radius: 4px;
+      padding: 22px 24px;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .course:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .course h4 {
+      margin: 0 0 6px;
+      font-family: 'Fraunces', serif;
+      font-size: 1.15rem;
+    }
+
+    .course p {
+      margin: 0;
+      font-size: 0.88rem;
+      opacity: 0.7;
+    }
+
+    .course .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--brick);
+      white-space: nowrap;
+      border: 1px solid var(--brick);
+      padding: 4px 10px;
+      border-radius: 20px;
+      height: fit-content;
+    }
+
+    /* FEEDBACK */
+    .quotes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width:860px) {
+      .quotes {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .quote {
+      background: #fff;
+      border-left: 3px solid var(--gold);
+      padding: 22px 22px 20px;
+      border-radius: 2px;
+      box-shadow: 0 6px 18px rgba(18, 33, 59, 0.06);
+    }
+
+    .quote p {
+      font-style: italic;
+      margin: 0 0 14px;
+      font-size: 0.95rem;
+    }
+
+    .quote .who {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      opacity: 0.6;
+    }
+
+    /* CONTACT */
+    .contact {
+      background: var(--ink);
+      color: var(--parchment);
+      border-radius: 6px;
+      padding: 6vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    @media (max-width:800px) {
+      .contact {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .contact h2 {
+      font-size: 1.8rem;
+      margin: 0 0 14px;
+    }
+
+    .contact p.note {
+      opacity: 0.75;
+      max-width: 44ch;
+    }
+
+    .channels {
+      list-style: none;
+      padding: 0;
+      margin: 26px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .channels li {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 0.98rem;
+    }
+
+    .channels .ic {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold-soft);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 14px;
+    }
+
+    .form-row > * {
+      flex: 1;
+      min-width: 0;
+    }
+
+    @media (max-width:500px) {
+      .form-row {
+        flex-direction: column;
+      }
+    }
+
+    form label {
+      display: block;
+      font-size: 0.8rem;
+      font-family: 'IBM Plex Mono', monospace;
+      opacity: 0.7;
+      margin-bottom: 4px;
+    }
+
+    form input,
+    form textarea {
+      width: 100%;
+      background: rgba(239, 232, 216, 0.06);
+      border: 1px solid var(--line);
+      color: var(--parchment);
+      padding: 12px 14px;
+      border-radius: 2px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.95rem;
+    }
+
+    form input:focus-visible,
+    form textarea:focus-visible {
+      outline: 2px solid var(--gold-soft);
+      outline-offset: 2px;
+    }
+
+    form textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    form button {
+      margin-top: 6px;
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      padding: 13px 22px;
+      border-radius: 2px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background .2s;
+    }
+
+    form button:hover,
+    form button:focus-visible {
+      background: var(--gold-soft);
+    }
+
+    .form-success {
+      display: none;
+      background: rgba(185, 139, 46, 0.1);
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: 20px 22px;
+      text-align: center;
+      color: var(--gold-soft);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .form-success.show {
+      display: block;
+    }
+
+    .form-success strong {
+      color: var(--gold);
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    footer {
+      padding: 26px 6vw;
+      text-align: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--ink);
+      opacity: 0.75;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .6s ease, transform .6s ease;
+      will-change: opacity, transform;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="brand"><span class="dot"></span>JEN FRANÇAIS</div>
+    <div class="nav-links">
+      <a href="#về">Giới thiệu</a>
+      <a href="#khoahoc">Khóa học</a>
+      <a href="#hocvien">Học viên nói gì</a>
+    </div>
+    <div class="nav-right">
+      <a class="nav-cta" href="#lienhe">Đặt lịch tư vấn</a>
+      <button class="nav-toggle" aria-label="Mở menu" aria-expanded="false">
+        <svg class="ham-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-overlay"></div>
+
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Giáo viên tiếng Pháp · DELF B2</span>
+      <h1 class="display">Lộ trình tiếng Pháp <em>cá nhân hóa</em> —<br>từ B1 đến TCF / DELF B2</h1>
+      <p class="lede">Dạy 1-1 online, xây lộ trình riêng theo mục tiêu và thời gian thi của từng học viên. Không rập
+        khuôn giáo trình — mỗi kế hoạch học được thiết kế lại cho đúng người, đúng lúc.</p>
+      <div class="hero-ctas">
+        <a class="btn-primary" href="#lienhe">Đặt lịch tư vấn miễn phí</a>
+        <a class="btn-ghost" href="#khoahoc">Xem khóa học</a>
+      </div>
+    </div>
+    <div class="seal-wrap">
+      <svg class="seal" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="130" cy="130" r="128" fill="none" stroke="#D9B968" stroke-width="1.5" opacity="0.5" />
+        <circle cx="130" cy="130" r="112" fill="none" stroke="#D9B968" stroke-width="1" />
+        <g class="ring">
+          <path id="ringpath" d="M 130,130 m -95,0 a 95,95 0 1,1 190,0 a 95,95 0 1,1 -190,0" fill="none" />
+          <text class="seal-ring-text">
+            <textPath href="#ringpath" startOffset="0%">DELF B2 · TCF · DALF · APPRENTISSAGE PERSONNALISÉ · </textPath>
+          </text>
+        </g>
+        <circle cx="130" cy="130" r="72" fill="#1B3157" stroke="#D9B968" stroke-width="1" />
+        <text x="130" y="120" text-anchor="middle" font-family="Fraunces, serif" font-size="15" fill="#EFE8D8"
+          font-weight="600">CERTIFIÉ</text>
+        <text x="130" y="145" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="26" fill="#D9B968"
+          font-weight="600">B2</text>
+        <text x="130" y="163" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9"
+          letter-spacing="2" fill="#EFE8D8" opacity="0.7">EN LIGNE · 1-1</text>
+      </svg>
+    </div>
+  </section>
+
+  <section id="về">
+    <div class="section-head reveal">
+      <span class="eyebrow mono">Thế mạnh</span>
+      <h2 class="display">Ba điều học viên nhận được</h2>
+      <p>Không chỉ là giờ học - mà là một hệ thống rõ ràng để đi đến đích.</p>
+    </div>
+    <div class="tickets">
+      <div class="ticket reveal">
+        <span class="code">RÉF · DELF-B2</span>
+        <h3 class="display">Chứng chỉ DELF B2</h3>
+        <p>Trực tiếp thi và đạt DELF B2 - hiểu rõ format đề, tiêu chí chấm điểm và cách phân bổ thời gian ôn luyện hiệu
+          quả.</p>
+        <div class="perf">CHỨNG NHẬN NĂNG LỰC</div>
+      </div>
+      <div class="ticket reveal">
+        <span class="code">RÉF · TCF-CANADA</span>
+        <h3 class="display">Luyện thi TCF</h3>
+        <p>Xây dựng lộ trình luyện TCF theo tuần, tập trung vào kỹ năng còn yếu, luyện đề sát với cấu trúc thi thật.</p>
+        <div class="perf">LỘ TRÌNH THEO TUẦN</div>
+      </div>
+      <div class="ticket reveal">
+        <span class="code">RÉF · 1-1 · ONLINE</span>
+        <h3 class="display">Dạy 1-1 online</h3>
+        <p>Kèm riêng theo tốc độ và mục tiêu của từng học viên — không học chung giáo trình đại trà.</p>
+        <div class="perf">CÁ NHÂN HÓA HOÀN TOÀN</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about reveal">
+    <div class="avatar-slot">Ảnh đại diện<br>của bạn</div>
+    <div class="about-copy">
+      <span class="eyebrow mono eyebrow--brick">Về mình</span>
+      <h2 class="display">Xin chào, mình là [Tên bạn]</h2>
+      <p class="about-text">Vài dòng ngắn giới thiệu hành trình học và dạy tiếng Pháp của bạn, vì sao
+        bạn chọn hướng luyện thi TCF/DELF, và điều bạn tin là quan trọng nhất khi học một ngôn ngữ mới. Giữ đoạn này
+        ngắn gọn, chân thật — phụ huynh và học viên sẽ đọc phần này trước khi quyết định liên hệ.</p>
+      <ul class="credentials">
+        <li><span class="stamp-mini">DELF B2</span> Chứng chỉ tiếng Pháp trình độ B2</li>
+        <li><span class="stamp-mini">TCF</span> Kinh nghiệm xây lộ trình luyện thi TCF Canada</li>
+        <li><span class="stamp-mini">1-1</span> Chuyên dạy kèm riêng, không dạy lớp đông</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="khoahoc">
+    <div class="section-head reveal">
+      <span class="eyebrow mono">Khóa học</span>
+      <h2 class="display">Chọn lộ trình phù hợp với mục tiêu</h2>
+      <p>Mỗi khóa đều được điều chỉnh theo thời gian thi và trình độ đầu vào của học viên.</p>
+    </div>
+    <div class="courses">
+      <div class="course reveal">
+        <div>
+          <h4>DELF A1 – A2</h4>
+          <p>Nền tảng cho người mới bắt đầu, phát âm và giao tiếp cơ bản.</p>
+        </div>
+        <span class="tag">MỚI BẮT ĐẦU</span>
+      </div>
+      <div class="course reveal">
+        <div>
+          <h4>DELF B1</h4>
+          <p>Củng cố ngữ pháp, mở rộng vốn từ, luyện 4 kỹ năng theo format thi.</p>
+        </div>
+        <span class="tag">TRUNG CẤP</span>
+      </div>
+      <div class="course reveal">
+        <div>
+          <h4>DELF B2</h4>
+          <p>Luyện chuyên sâu Writing &amp; Speaking, phản biện và lập luận học thuật.</p>
+        </div>
+        <span class="tag">NÂNG CAO</span>
+      </div>
+      <div class="course reveal">
+        <div>
+          <h4>TCF Canada</h4>
+          <p>Lộ trình luyện thi theo tuần, sát format thi thật, có mock test.</p>
+        </div>
+        <span class="tag">ĐỊNH CƯ / DU HỌC</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="hocvien">
+    <div class="section-head reveal">
+      <span class="eyebrow mono">Học viên nói gì</span>
+      <h2 class="display">Kết quả thực tế</h2>
+    </div>
+    <div class="quotes">
+      <div class="quote reveal">
+        <p>"Lộ trình rất rõ ràng, mỗi tuần biết mình cần học gì."</p>
+        <div class="who">— Học viên DELF B1</div>
+      </div>
+      <div class="quote reveal">
+        <p>"Con tiến bộ rõ rệt sau 2 tháng, đặc biệt phần nói."</p>
+        <div class="who">— Phụ huynh học viên</div>
+      </div>
+      <div class="quote reveal">
+        <p>"Thi TCF đạt điểm mong muốn nhờ luyện đề sát thực tế."</p>
+        <div class="who">— Học viên TCF Canada</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="lienhe">
+    <div class="contact reveal">
+      <div>
+        <span class="eyebrow mono">Liên hệ</span>
+        <h2 class="display">Đặt lịch tư vấn miễn phí</h2>
+        <p class="note">Kênh liên hệ trực tiếp — không qua nền tảng trung gian nào. Mọi trao đổi về lộ trình học đều
+          diễn ra trực tiếp giữa bạn và mình.</p>
+        <ul class="channels">
+          <li><span class="ic mono">Zl</span> Zalo: 0xxx xxx xxx</li>
+          <li><span class="ic mono">@</span> Email: hello@minhfrancais.com</li>
+          <li><span class="ic mono">Đt</span> Điện thoại: 0xxx xxx xxx</li>
+        </ul>
+      </div>
+      <form id="contact-form" action="https://formsubmit.co/ajax/cuongpq.dhtb@gmail.com" method="POST">
+        <div class="form-row">
+          <div>
+            <label for="name">Họ tên</label>
+            <input id="name" name="Họ tên" type="text" placeholder="Nguyễn Văn A" required>
+          </div>
+          <div>
+            <label for="phone">Số điện thoại</label>
+            <input id="phone" name="Số điện thoại" type="tel" placeholder="090 xxx xxxx" required>
+          </div>
+        </div>
+        <label for="email">Email</label>
+        <input id="email" name="Email" type="email" placeholder="hello@email.com" required>
+        <label for="goal">Mục tiêu học</label>
+        <input id="goal" name="Mục tiêu học" type="text" placeholder="Ví dụ: Luyện DELF B1 trong 4 tháng" required>
+        <label for="note">Ghi chú</label>
+        <textarea id="note" name="Ghi chú" placeholder="Trình độ hiện tại, thời gian thi dự kiến..."></textarea>
+        <button type="submit">Gửi yêu cầu tư vấn</button>
+      </form>
+      <div class="form-success">
+        <strong>✓ Yêu cầu đã gửi thành công!</strong>
+        Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi trong thời gian sớm nhất.
+      </div>
+    </div>
+  </section>
+
+  <footer>JEN FRANÇAIS</footer>
+
+  <script>
+    (function () {
+      var toggle = document.querySelector('.nav-toggle');
+      var navLinks = document.querySelector('.nav-links');
+      var overlay = document.querySelector('.nav-overlay');
+      if (toggle && navLinks) {
+        function openMenu() {
+          toggle.classList.add('active');
+          navLinks.classList.add('open');
+          overlay.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+          document.body.style.overflow = 'hidden';
+        }
+        function closeMenu() {
+          toggle.classList.remove('active');
+          navLinks.classList.remove('open');
+          overlay.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+        toggle.addEventListener('click', function () {
+          if (navLinks.classList.contains('open')) { closeMenu(); } else { openMenu(); }
+        });
+        navLinks.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', closeMenu);
+        });
+        if (overlay) { overlay.addEventListener('click', closeMenu); }
+      }
+    })();
+
+    (function () {
+      var form = document.getElementById('contact-form');
+      var success = document.querySelector('.form-success');
+      if (form && success) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var btn = form.querySelector('button');
+          btn.disabled = true;
+          btn.textContent = 'Đang gửi...';
+          var data = new FormData(form);
+          var today = new Date();
+          var time = today.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+          var date = today.toLocaleDateString('vi-VN');
+          var ten = document.getElementById('name').value || 'Không tên';
+          data.append('_subject', ten + ' - Đăng ký tư vấn tiếng Pháp ' + time + ' ' + date);
+          fetch(form.action, { method: 'POST', body: data })
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+              if (res.success) {
+                form.reset();
+                form.style.display = 'none';
+                success.classList.add('show');
+              }
+            })
+            .catch(function () {
+              btn.disabled = false;
+              btn.textContent = 'Gửi lại yêu cầu';
+            });
+        });
+      }
+    })();
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+
+</html>
